@@ -54,8 +54,8 @@
 <button class="text-indigo-600 transition-colors" id="nav-home" onclick="switchPage('home')">الرئيسية</button>
 <button class="text-gray-600 hover:text-indigo-600 transition-colors" id="nav-social" onclick="switchPage('social')">تصميم إعلانات السوشيال ميديا</button>
 <button class="text-gray-600 hover:text-indigo-600 transition-colors" id="nav-web" onclick="switchPage('web')">تصميم وتطوير مواقع الويب</button>
-<button class="text-gray-600 hover:text-indigo-600 transition-colors" id="nav-about" onclick="scrollToSection('about')">نبذة عنا</button>
-<button class="text-gray-600 hover:text-indigo-600 transition-colors" id="nav-contact" onclick="scrollToSection('contact')">تواصل معنا</button>
+<button class="text-gray-600 hover:text-indigo-600 transition-colors" onclick="scrollToSection('about')">نبذة عنا</button>
+<button class="text-gray-600 hover:text-indigo-600 transition-colors" onclick="scrollToSection('contact')">تواصل معنا</button>
 </nav>
 <!-- زر القائمة للجوال -->
 <div class="lg:hidden">
@@ -232,7 +232,7 @@
 <span>دمشق - سوريا</span>
 <span>📍</span>
 </div>
-<a class="inline-flex items-center gap-1.5 hover:text-indigo-600 transition-colors" href="https://mail.google.com/mail/?view=cm&fs=1&to=vextropy@gmail.com" target="_blank" rel="noopener">
+<a class="inline-flex items-center gap-1.5 hover:text-indigo-600 transition-colors" href="mailto:vextropy@gmail.com">
 <span>vextropy@gmail.com</span>
 <span>💌</span>
 </a>
@@ -287,17 +287,6 @@
         }
         document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
-        function setActiveNav(navId) {
-            document.querySelectorAll('nav button').forEach(btn => {
-                btn.classList.remove('text-indigo-600');
-                btn.classList.add('text-gray-600');
-            });
-            if (document.getElementById(navId)) {
-                document.getElementById(navId).classList.remove('text-gray-600');
-                document.getElementById(navId).classList.add('text-indigo-600');
-            }
-        }
-
         function switchPage(pageId) {
             document.querySelectorAll('.page-section').forEach(section => {
                 section.classList.remove('active');
@@ -305,29 +294,24 @@
             document.getElementById('page-' + pageId).classList.add('active');
             loadEmbed(pageId);
 
-            setActiveNav('nav-' + pageId);
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('text-indigo-600');
+                btn.classList.add('text-gray-600');
+            });
+            if(document.getElementById('nav-' + pageId)) {
+                document.getElementById('nav-' + pageId).classList.remove('text-gray-600');
+                document.getElementById('nav-' + pageId).classList.add('text-indigo-600');
+            }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function scrollToSection(sectionId) {
             if (sectionId === 'contact') {
-                setActiveNav('nav-contact');
-                document.querySelectorAll('.page-section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                document.getElementById('page-home').classList.add('active');
-                setTimeout(() => {
-                    document.getElementById('site-footer').scrollIntoView({ behavior: 'smooth' });
-                }, 50);
+                document.getElementById('site-footer').scrollIntoView({ behavior: 'smooth' });
                 return;
             }
-            document.querySelectorAll('.page-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById('page-home').classList.add('active');
-            loadEmbed('home');
-            setActiveNav('nav-' + sectionId);
+            switchPage('home');
             setTimeout(() => {
                 const element = document.getElementById(sectionId);
                 if (element) {
@@ -787,7 +771,7 @@ footer{padding:25px 0;border-top:1px solid #ededed;color:#777;font-weight:400;fo
 <a class="contact-card" href="https://wa.me/963939916838?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20أويس،%20أرغب%20بالتواصل%20معك%20بخصوص%20تصاميم%20السوشيال%20ميديا." target="_blank" rel="noopener">
 <strong>📞 واتساب / هاتف</strong><span dir="ltr">+963 939 916 838</span>
 </a>
-<a class="contact-card" href="https://mail.google.com/mail/?view=cm&fs=1&to=vextropy@gmail.com" target="_blank" rel="noopener"><strong>✉️ البريد الإلكتروني</strong><span>vextropy@gmail.com</span></a>
+<div class="contact-card"><strong>✉️ البريد الإلكتروني</strong><span>vextropy@gmail.com</span></div>
 <div class="contact-card"><strong>📍 العنوان</strong><span>دمشق — سوريا</span></div>
 </div>
 </div>
@@ -1984,7 +1968,7 @@ footer{
 <a class="contact-card" href="https://wa.me/963939916838?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%AA%D9%88%D8%A7%D8%B5%D9%84%20%D9%85%D8%B9%D9%83%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20%D8%AA%D8%B5%D9%85%D9%8A%D9%85%20%D9%85%D9%88%D9%82%D8%B9%20%D9%88%D9%8A%D8%A8." target="_blank" rel="noopener">
 <strong>📞 واتساب / هاتف</strong><span dir="ltr">+963 939 916 838</span>
 </a>
-<a class="contact-card" href="https://mail.google.com/mail/?view=cm&fs=1&to=vextropy@gmail.com" target="_blank" rel="noopener"><strong>✉️ البريد الإلكتروني</strong><span>vextropy@gmail.com</span></a>
+<div class="contact-card"><strong>✉️ البريد الإلكتروني</strong><span>vextropy@gmail.com</span></div>
 <div class="contact-card"><strong>📍 العنوان</strong><span>دمشق — سوريا</span></div>
 </div>
 </div>
