@@ -741,9 +741,11 @@ footer{padding:25px 0;border-top:1px solid #ededed;color:#777;font-weight:400;fo
       <option value="+61">استراليا (+61)</option>
       <option value="+64">نيوزيلندا (+64)</option>
     </select>
-    <input id="phone" required placeholder="939916838">
+    <input id="phone" required placeholder="رقم الهاتف">
   </div>
 </div>
+
+<div class="field full"><label>اسم المسوق الذي عرّفك علينا *</label><input id="marketer" required placeholder="اكتب اسم المسوق"></div>
 
 <div class="field"><label>نوع الخدمة المطلوبة *</label>
 <select id="service" required onchange="updateOptions()">
@@ -785,7 +787,7 @@ footer{padding:25px 0;border-top:1px solid #ededed;color:#777;font-weight:400;fo
 </div>
 <div class="contact">
 <a class="contact-card" href="https://wa.me/963939916838?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20أويس،%20أرغب%20بالتواصل%20معك%20بخصوص%20تصاميم%20السوشيال%20ميديا." target="_blank" rel="noopener">
-<strong>📞 واتساب / هاتف</strong><span dir="ltr">+963 939 916 838</span>
+<strong>📞 واتساب</strong><span>تواصل معنا مباشرة عبر واتساب</span>
 </a>
 <a class="contact-card" href="https://mail.google.com/mail/?view=cm&fs=1&to=vextropy@gmail.com" target="_blank" rel="noopener"><strong>✉️ البريد الإلكتروني</strong><span>vextropy@gmail.com</span></a>
 <div class="contact-card"><strong>📍 العنوان</strong><span>دمشق — سوريا</span></div>
@@ -802,8 +804,8 @@ footer{padding:25px 0;border-top:1px solid #ededed;color:#777;font-weight:400;fo
 </footer>
 
 <script>
-/* إظهار السعر للعميل: false = مخفي (يتم تحديد السعر بعد التواصل) — true = يظهر */
-const SHOW_PRICE = false;
+/* إظهار السعر للعميل: true = يظهر — false = مخفي (يتم تحديد السعر بعد التواصل) */
+const SHOW_PRICE = true;
 (function(){ var t=document.getElementById('totalPrice'); if(t && !SHOW_PRICE){ t.closest('.summary-total').style.display='none'; } })();
 
 function openModal(src) {
@@ -880,18 +882,18 @@ function updateSummary() {
   }
 
   const prices = {
-    'هوية بصرية أساسية': 35.0,
-    'هوية بصرية متكاملة للشركات': 65.0,
-    'حزمة قوالب ثابتة فقط': 25.0,
-    'تصميم إعلان ممول فردي (Ads)': 2.0,
-    'حزمة 3 إعلانات ممولة': 5.5,
-    'باقة إعلانات الحملات الشهرية': 55.0,
-    '5 تصميمات': 7.5,
-    '10 تصميمات': 15.0,
-    '12 تصميم (المعرض كامل)': 18.0,
-    'باقة 15-20 تصميم': 25.0,
-    'باقة شهرية كاملة': 45.0,
-    'تصميم 1': 1.5
+    'هوية بصرية أساسية': 90.0,
+    'هوية بصرية متكاملة للشركات': 250.0,
+    'حزمة قوالب ثابتة فقط': 70.0,
+    'تصميم إعلان ممول فردي (Ads)': 30.0,
+    'حزمة 3 إعلانات ممولة': 80.0,
+    'باقة إعلانات الحملات الشهرية': 180.0,
+    '5 تصميمات': 75.0,
+    '10 تصميمات': 140.0,
+    '12 تصميم (المعرض كامل)': 165.0,
+    'باقة 15-20 تصميم': 230.0,
+    'باقة شهرية كاملة': 320.0,
+    'تصميم 1': 20.0
   };
 
   const calculatedPrice = prices[countVal] || 0;
@@ -908,12 +910,14 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
   const fullPhone = countryCode + phoneNum;
 
   const name = document.getElementById('name').value;
+  const marketer = document.getElementById('marketer').value.trim();
+  if(!marketer){ alert('يرجى كتابة اسم المسوق الذي عرّفك علينا.'); document.getElementById('marketer').focus(); return; }
   const service = document.getElementById('service').value;
   const countText = countSelect.options[countSelect.selectedIndex].text;
   const notes = document.getElementById('notes').value;
   const totalVal = totalPrice.textContent;
 
-  const msg = `مرحباً أويس، أود طلب تصميم:\n\n- الاسم/النشاط: ${name}\n- الهاتف: ${fullPhone}\n- الخدمة: ${service}\n- الباقة/الخيار: ${countText}${SHOW_PRICE ? '\n- السعر التقديري الإجمالي: ' + totalVal : ''}\n- ملاحظات: ${notes || 'لا يوجد'}\n\nأرغب بالتواصل لمناقشة التفاصيل النهائية وتحديد السعر.`;
+  const msg = `مرحباً أويس، أود طلب تصميم:\n\n- الاسم/النشاط: ${name}\n- الهاتف: ${fullPhone}\n- المسوق الذي عرّفنا عليه: ${marketer}\n- الخدمة: ${service}\n- الباقة/الخيار: ${countText}${SHOW_PRICE ? '\n- السعر التقديري الإجمالي: ' + totalVal : ''}\n- ملاحظات: ${notes || 'لا يوجد'}\n\nأرغب بالتواصل لمناقشة التفاصيل النهائية وتحديد السعر.`;
   const waUrl = `https://api.whatsapp.com/send?phone=963939916838&text=${encodeURIComponent(msg)}`;
   if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) { try { window.top.location.href = waUrl; } catch (err) { window.open(waUrl, '_blank'); } }
   else { window.open(waUrl, '_blank'); }
@@ -1565,7 +1569,6 @@ footer{border-top:1px solid #ededed!important;color:#777!important;background:#f
       "url":"https://owais-dev2026.github.io/projects/",
       "jobTitle":"Web Designer & Developer",
       "email":"mailto:vextropy@gmail.com",
-      "telephone":"+963939916838",
       "address":{"@type":"PostalAddress","addressLocality":"Damascus","addressCountry":"SY"}
     }
     <\/script>
@@ -1909,6 +1912,8 @@ footer{
 <div class="field"><label>اسمك *</label><input id="name" required placeholder="مثال: أحمد محمد"></div>
 <div class="field"><label>رقم واتساب *</label><div class="phone-box"><select id="dialCode" aria-label="رمز الدولة"></select><input id="phone" required inputmode="tel" dir="ltr" placeholder="رقم الهاتف"></div></div>
 
+<div class="field full"><label>اسم المسوق الذي عرّفك علينا *</label><input id="marketer" required placeholder="اكتب اسم المسوق"></div>
+
 <div class="field"><label>الدولة *</label>
 <select id="country" required></select></div>
 <div class="field"><label>العملة *</label>
@@ -1965,7 +1970,7 @@ footer{
 <div class="summary-total"><span>السعر: </span><span id="total">—</span></div>
 </div>
 <button class="btn btn-primary submit" type="submit">📲 إرسال الطلب عبر واتساب</button>
-<div class="note">سيتم تحويلك مباشرة إلى واتساب مع تفاصيل طلبك، ثم نتواصل معك لتحديد السعر قبل البدء.</div>
+<div class="note">السعر المعروض تقديري، وسيتم تحويلك مباشرة إلى واتساب مع تفاصيل طلبك ثم نتواصل معك لاعتماده قبل البدء.</div>
 </form>
 </div>
 </div>
@@ -1982,7 +1987,7 @@ footer{
 <div class="section-head"><div class="eyebrow">CONTACT</div><h2>تواصل معنا</h2><p>للطلبات والاستفسارات والمشاريع المخصصة.</p></div>
 <div class="contact">
 <a class="contact-card" href="https://wa.me/963939916838?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%AA%D9%88%D8%A7%D8%B5%D9%84%20%D9%85%D8%B9%D9%83%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20%D8%AA%D8%B5%D9%85%D9%8A%D9%85%20%D9%85%D9%88%D9%82%D8%B9%20%D9%88%D9%8A%D8%A8." target="_blank" rel="noopener">
-<strong>📞 واتساب / هاتف</strong><span dir="ltr">+963 939 916 838</span>
+<strong>📞 واتساب</strong><span>تواصل معنا مباشرة عبر واتساب</span>
 </a>
 <a class="contact-card" href="https://mail.google.com/mail/?view=cm&fs=1&to=vextropy@gmail.com" target="_blank" rel="noopener"><strong>✉️ البريد الإلكتروني</strong><span>vextropy@gmail.com</span></a>
 <div class="contact-card"><strong>📍 العنوان</strong><span>دمشق — سوريا</span></div>
@@ -2017,8 +2022,8 @@ const THREE_DECIMALS = ['KWD','OMR','BHD','JOD','TND','LYD'];
 <\/script>
 <script>
 /* عدّل روابط المعرض والأسعار من هذا القسم فقط عند الحاجة */
-/* إظهار السعر للعميل: false = مخفي (يتم تحديد السعر بعد التواصل) — true = يظهر (وأقل موقع 20$) */
-const SHOW_PRICE=false;
+/* إظهار السعر للعميل: true = يظهر — false = مخفي. أقل موقع 50$ */
+const SHOW_PRICE=true;
 (function(){var t=document.getElementById('total'); if(t&&!SHOW_PRICE){t.closest('.summary-total').style.display='none';}})();
 const projects=[
  {id:'nexus',name:'Nexus Store',ar:'متجر إلكتروني',desc:'متجر إلكتروني تفاعلي مع سلة مشتريات ولوحة تحكم وإضافة منتجات.',price:180,url:'https://owais-dev2026.github.io/projects/nexus-store.html',cover:'cover-store',image:''},
@@ -2030,7 +2035,7 @@ const projects=[
 ];
 
 const sizeData={
- simple:{label:'بسيط',base:55,time:'1–2 يوم'},
+ simple:{label:'بسيط',base:50,time:'1–2 يوم'},
  small:{label:'صغير',base:80,time:'2–3 أيام'},
  medium:{label:'متوسط',base:115,time:'3–5 أيام'},
  large:{label:'كبير',base:165,time:'7–14 يوم'}
@@ -2070,7 +2075,7 @@ function getQuote(){
  selectedFeatures.forEach(x=>usd+=featureData[x.value].extra);
  if(document.getElementById('automation').checked) usd+=25;
  if(document.getElementById('logo').value==='أحتاج تصميم شعار') usd+=15;
- usd=Math.max(20,Math.round(usd/5)*5*(20/55)); /* عند إظهار السعر: أقل موقع 20$ (الأصلي 55$) */
+ usd=Math.max(50,Math.round(usd/5)*5); /* أقل موقع 50$ */
  return {usd,type,size,pages,design,selectedFeatures};
 }
 function updateSummary(){
@@ -2113,6 +2118,8 @@ if(customColorInput){
 
 document.getElementById('orderForm').addEventListener('submit',function(e){
  e.preventDefault();
+ const marketer=document.getElementById('marketer').value.trim();
+ if(!marketer){ alert('يرجى كتابة اسم المسوق الذي عرّفك علينا.'); document.getElementById('marketer').focus(); return; }
  if(!selectionsComplete()){
    alert('يرجى إكمال البيانات الأساسية قبل إرسال الطلب.');
    document.getElementById('summaryBox').scrollIntoView({behavior:'smooth',block:'center'});
@@ -2131,7 +2138,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
  const dialIso=document.getElementById('dialCode').value;
  let phoneNum=document.getElementById('phone').value.trim().replace(/[\s\-()]/g,'');
  const fullPhone=phoneNum.startsWith('+')?phoneNum:('+'+(DIAL[dialIso]||'')+' '+phoneNum.replace(/^0+/,''));
- const msg=`طلب موقع جديد — owais-dev2026\n\n👤 الاسم: ${document.getElementById('name').value}\n📱 واتساب: ${fullPhone}\n🌍 الدولة: ${document.getElementById('country').selectedOptions[0].text}\n💱 العملة: ${cur}\n💻 نوع الموقع: ${q.type.label}\n📐 الحجم: ${q.size.label}\n📄 الصفحات: ${q.pages.label}\n✨ مستوى التصميم: ${q.design.label}\n🧩 الوظائف: ${features}\n🎨 الألوان: ${colorsText}\n⚙️ Automation: ${document.getElementById('automation').checked?'نعم':'لا'}\n⏱️ مدة التسليم التقريبية: ${q.size.time}${SHOW_PRICE?'\n💵 السعر: '+converted+' '+(currencySymbols[cur]||cur):''}\n✉️ البريد: ${document.getElementById('email').value||'غير مذكور'}\n🏷️ الشعار: ${document.getElementById('logo').value}\n📝 الملاحظات: ${document.getElementById('notes').value||'لا توجد'}\n\nأرغب بالتواصل لمناقشة التفاصيل النهائية وتحديد السعر.`;
+ const msg=`طلب موقع جديد — owais-dev2026\n\n👤 الاسم: ${document.getElementById('name').value}\n🧑‍💼 المسوق الذي عرّفنا عليه: ${marketer}\n📱 واتساب: ${fullPhone}\n🌍 الدولة: ${document.getElementById('country').selectedOptions[0].text}\n💱 العملة: ${cur}\n💻 نوع الموقع: ${q.type.label}\n📐 الحجم: ${q.size.label}\n📄 الصفحات: ${q.pages.label}\n✨ مستوى التصميم: ${q.design.label}\n🧩 الوظائف: ${features}\n🎨 الألوان: ${colorsText}\n⚙️ Automation: ${document.getElementById('automation').checked?'نعم':'لا'}\n⏱️ مدة التسليم التقريبية: ${q.size.time}${SHOW_PRICE?'\n💵 السعر: '+converted+' '+(currencySymbols[cur]||cur):''}\n✉️ البريد: ${document.getElementById('email').value||'غير مذكور'}\n🏷️ الشعار: ${document.getElementById('logo').value}\n📝 الملاحظات: ${document.getElementById('notes').value||'لا توجد'}\n\nأرغب بالتواصل لمناقشة التفاصيل النهائية وتحديد السعر.`;
  const waUrl='https://api.whatsapp.com/send?phone=963939916838&text='+encodeURIComponent(msg);
  if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){try{window.top.location.href=waUrl;}catch(err){window.open(waUrl,'_blank');}}else{window.open(waUrl,'_blank');}
 });
